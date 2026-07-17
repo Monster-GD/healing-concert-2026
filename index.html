@@ -5,86 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사천 시민과 관광객을 위한 힐링 콘서트</title>
     
-    <!-- 카카오톡 미리보기 정보 -->
+    <!-- 카카오톡 미리보기 설정 -->
+    <meta property="og:image" content="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/1.jpg">
     <meta property="og:title" content="사천 시민과 관광객을 위한 힐링 콘서트">
-    <meta property="og:description" content="사천 시민과 관광객을 위한 힐링 콘서트에 초대합니다.">
+    <meta property="og:description" content="사천시 용현면 사천대교로 75-61">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
-        .container { width: 100vw; height: 100vh; overflow-x: scroll; scroll-snap-type: x mandatory; display: flex; scrollbar-width: none; -ms-overflow-style: none; }
+        body { font-family: 'Pretendard', sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+        .container { width: 100vw; height: 100vh; overflow-x: scroll; scroll-snap-type: x mandatory; display: flex; scrollbar-width: none; }
         .container::-webkit-scrollbar { display: none; }
         .page { flex: 0 0 100vw; height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background-size: contain; background-repeat: no-repeat; background-position: center bottom; background-color: #f0f0f0; }
-        .nav-button { position: fixed; top: 50%; transform: translateY(-50%); z-index: 10; background-color: rgba(0,0,0,0.4); color: white; padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: background-color 0.2s; }
-        .nav-button-left { left: 0.75rem; }
-        .nav-button-right { right: 0.75rem; }
-        .indicators { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 10; }
-        .indicator { width: 0.75rem; height: 0.75rem; background-color: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; transition: all 0.3s; cursor: pointer; }
-        .indicator.active { background-color: #d13d3d; width: 1.5rem; border-radius: 9999px; }
+        
         .page-4-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(50px); }
-        .map-container { width: 80%; max-width: 400px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-radius: 1rem; overflow: hidden; }
+        .map-container { width: 80%; max-width: 400px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-radius: 1rem; overflow: hidden; }
+        .map-container img { max-height: 192px; width: 100%; object-fit: contain; background-color: white; }
         .page-4-buttons { width: 80%; max-width: 300px; display: flex; flex-direction: column; gap: 0.75rem; }
     </style>
 </head>
 <body>
+    
     <div id="container" class="container">
-        <!-- 페이지 이미지들은 업로드하신 새 파일명으로 변경하여 사용하세요 -->
-        <div id="page-1" class="page" style="background-image: url('모바일 초대 (힐링콘서트) 2026 07 06 (4)_1.jpg');"></div>
-        <div id="page-2" class="page" style="background-image: url('모바일 초대 (힐링콘서트) 2026 07 06 (4)_2.jpg');"></div>
-        <div id="page-3" class="page" style="background-image: url('모바일 초대 (힐링콘서트) 2026 07 06 (4)_3.jpg');"></div>
+        <!-- 1~3페이지 -->
+        <div class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/1.jpg');"></div>
+        <div class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/2.jpg');"></div>
+        <div class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/3.jpg');"></div>
 
-        <!-- 4페이지: 오시는 길 -->
-        <div id="page-4" class="page" style="background-image: url('모바일 초대 (힐링콘서트) 2026 07 06 (4)_4.jpg');">
+        <!-- 4페이지: 수정된 파일명 적용 -->
+        <div class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/4-map.jpg');">
             <div class="page-4-content">
                 <div class="map-container">
-                    <img src="map-sacheon.png" alt="사천시 용현면 사천대교로 75-61 지도" class="w-full h-auto rounded-xl">
+                    <img src="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/map-sacheon.PNG" alt="행사장 지도">
                 </div>
                 <div class="page-4-buttons">
-                    <a href="https://map.naver.com/v5/search/경상남도 사천시 용현면 사천대교로 75-61" target="_blank" class="w-full py-3 bg-green-600 text-white text-center font-bold rounded-full">네이버 지도로 오시는 길</a>
-                    <a href="https://map.kakao.com/?q=경상남도 사천시 용현면 사천대교로 75-61" target="_blank" class="w-full py-3 bg-yellow-500 text-gray-800 text-center font-bold rounded-full">카카오맵으로 오시는 길</a>
-                    <a href="https://www.google.com/maps/search/경상남도+사천시+용현면+사천대교로+75-61" target="_blank" class="w-full py-3 bg-blue-600 text-white text-center font-bold rounded-full">구글 지도로 오시는 길</a>
+                    <a href="https://map.naver.com/v5/search/사천시 용현면 사천대교로 75-61" target="_blank" class="w-full font-bold py-3 px-6 rounded-full text-center bg-green-600 text-white shadow-lg">네이버 지도</a>
+                    <a href="https://map.kakao.com/?q=사천시 용현면 사천대교로 75-61" target="_blank" class="w-full font-bold py-3 px-6 rounded-full text-center bg-yellow-400 text-gray-800 shadow-lg">카카오맵</a>
+                    <a href="https://www.google.com/maps/search/사천시 용현면 사천대교로 75-61" target="_blank" class="w-full font-bold py-3 px-6 rounded-full text-center bg-blue-600 text-white shadow-lg">구글 지도</a>
                 </div>
             </div>
         </div>
 
-        <div id="page-5" class="page" style="background-image: url('모바일 초대 (힐링콘서트) 2026 07 06 (4)_5.jpg');"></div>
+        <!-- 5~6페이지 -->
+        <div class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/5.jpg');"></div>
+        <div class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/6.jpg');"></div>
     </div>
-
-    <!-- 기존 스크립트 유지 -->
-    <script>
-        /* (상세 스크립트 생략 - 기존 코드 그대로 사용 가능합니다) */
-        const container = document.getElementById('container');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const indicators = document.getElementById('indicators');
-        const pages = document.querySelectorAll('.page');
-        let currentPageIndex = 0;
-
-        function getCurrentPageIndex() {
-            const scrollLeft = container.scrollLeft;
-            const pageWidth = container.clientWidth;
-            currentPageIndex = Math.round(scrollLeft / pageWidth);
-            updateUI();
-        }
-
-        container.addEventListener('scroll', getCurrentPageIndex);
-
-        function updateUI() {
-            prevBtn.style.display = (currentPageIndex <= 0) ? 'none' : 'block';
-            nextBtn.style.display = (currentPageIndex >= pages.length - 1) ? 'none' : 'block';
-            indicators.innerHTML = '';
-            pages.forEach((_, index) => {
-                const indicator = document.createElement('div');
-                indicator.classList.add('indicator');
-                if (index === currentPageIndex) indicator.classList.add('active');
-                indicator.addEventListener('click', () => {
-                    pages[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                });
-                indicators.appendChild(indicator);
-            });
-        }
-        window.onload = getCurrentPageIndex;
-    </script>
 </body>
 </html>
