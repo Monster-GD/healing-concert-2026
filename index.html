@@ -1,6 +1,6 @@
 <!-- 
     이 코드는 HTML 파일로 저장하여 사용할 수 있는 좌우 슬라이드 형식의 모바일 초청장입니다.
-    제공해주신 5장의 이미지를 배경으로 사용하여 내용을 대체했습니다.
+    제공해주신 6장의 이미지를 배경으로 사용하여 내용을 대체했습니다.
 
     사용 방법:
     1. 이 코드를 전체 복사합니다.
@@ -23,7 +23,7 @@
     <title>2026 사천 시민과 관광객을 위한 힐링 콘서트에 초대합니다.</title>
     
     <!-- 카카오톡 미리보기 이미지 지정 (공연 사진) -->
-    <meta property="og:image" content="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/kakao-main.jpg.jpg">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/kakao-main.jpg">
     <meta property="og:title" content="2026 사천 시민과 관광객을 위한 힐링 콘서트에 초대합니다">
     <meta property="og:description" content="낭만이 흐르는 사천의 밤, 아름다운 선율 속에 스며드는 힐링의 시간.">
 
@@ -146,7 +146,7 @@
         <div id="page-3" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/3.jpg');"></div>
 
         <!-- 4페이지: 오시는 길 (지도 및 버튼 오버레이) -->
-        <div id="page-4" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/4-%EC%A7%80%EB%8F%84.jpg');">
+        <div id="page-4" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/4-map.jpg');">
             <div class="page-4-content">
                 <!-- 행사장소 텍스트와 링크 추가 -->
                 <a href="https://map.naver.com/v5/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank"
@@ -184,6 +184,9 @@
 
         <!-- 5페이지 -->
         <div id="page-5" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/5.jpg');"></div>
+
+        <!-- 6페이지 (추가됨) -->
+        <div id="page-6" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/6.jpg');"></div>
     </div>
     
     <!-- 네비게이션 버튼 및 인디케이터 -->
@@ -209,7 +212,6 @@
         let currentPageIndex = 0;
 
         function updateUI() {
-            // 현재 페이지에 따라 버튼 숨기기/보이기
             if (currentPageIndex === 0) {
                 prevBtn.style.display = 'none';
             } else {
@@ -221,7 +223,6 @@
                 nextBtn.style.display = 'block';
             }
 
-            // 인디케이터 업데이트
             indicators.innerHTML = '';
             pages.forEach((_, index) => {
                 const indicator = document.createElement('div');
@@ -254,14 +255,12 @@
             }
         });
 
-        // 스와이프 감지
         let startX = 0;
         container.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
         });
         container.addEventListener('touchend', (e) => {
             let endX = e.changedTouches[0].clientX;
-            // 50px 이상 스와이프했을 때만 페이지 이동
             if (startX - endX > 50) {
                 nextBtn.click();
             } else if (endX - startX > 50) {
@@ -269,7 +268,6 @@
             }
         });
         
-        // 초기 UI 업데이트
         window.onload = function() {
             updateUI();
         };
