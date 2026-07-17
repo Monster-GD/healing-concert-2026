@@ -1,2 +1,2 @@
-# music-concert-2026 07 25
+# healing-concert-2026
 2026 자유새 사천 시민과 관광객을 위한 힐링콘서트
