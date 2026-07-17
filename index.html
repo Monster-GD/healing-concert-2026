@@ -1,32 +1,278 @@
-<style>
-    /* body의 overflow: hidden을 제거하여 스크롤이 가능하게 합니다 */
-    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+<!-- 
+    이 코드는 HTML 파일로 저장하여 사용할 수 있는 좌우 슬라이드 형식의 모바일 초청장입니다.
+    제공해주신 5장의 이미지를 배경으로 사용하여 내용을 대체했습니다.
+
+    사용 방법:
+    1. 이 코드를 전체 복사합니다.
+    2. 컴퓨터의 텍스트 편집기(메모장, Visual Studio Code 등)를 엽니다.
+    3. 복사한 코드를 붙여넣습니다.
+    4. 파일을 '초청장.html'과 같이 '.html' 확장자로 저장합니다.
+    5. 완성된 파일을 스마트폰으로 전송하여 열면 초청장이 보입니다.
     
-    /* container는 가로로 페이지들을 나란히 배치합니다 */
-    .container { 
-        width: 100vw; 
-        height: 100vh; 
-        display: flex; 
-        overflow-x: auto; /* hidden 대신 auto 또는 scroll 사용 */
-        scroll-snap-type: x mandatory; 
-        scrollbar-width: none; 
-    }
+    특징:
+    * 좌우 스와이프로 페이지를 넘길 수 있습니다.
+    * 좌우 화살표 버튼을 클릭하여 페이지를 이동할 수 있습니다.
+    * 페이지 하단에 현재 페이지를 나타내는 점(인디케이터)이 표시됩니다.
+    * 4페이지 '오시는 길'에는 캡처한 지도 이미지가 표시되며, 하단에 네이버/구글/다음 지도 바로가기 버튼이 있습니다.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 사천 시민과 관광객을 위한 힐링 콘서트에 초대합니다.</title>
     
-    .container::-webkit-scrollbar { display: none; }
+    <!-- 카카오톡 미리보기 이미지 지정 (공연 사진) -->
+    <meta property="og:image" content="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/%EC%B9%B4%EC%B9%B4%EC%98%A4%20%EB%A9%94%EC%9D%B8.jpg">
+    <meta property="og:title" content="2026 사천 시민과 관광객을 위한 힐링 콘서트에 초대합니다">
+    <meta property="og:description" content="낭만이 흐르는 사천의 밤, 아름다운 선율 속에 스며드는 힐링의 시간.">
+
+    <!-- Tailwind CSS를 사용하기 위한 CDN 링크 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* 스크롤바 숨기기 */
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+            display: flex;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        .container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+        .page {
+            flex: 0 0 100vw;
+            height: 100vh;
+            scroll-snap-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top; /* 배경 이미지를 상단에 위치 */
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            user-select: none;
+        }
+        .nav-button-left {
+            left: 1rem;
+        }
+        .nav-button-right {
+            right: 1rem;
+        }
+        .indicators {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .indicator {
+            width: 0.75rem;
+            height: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        .indicator.active {
+            background-color: white;
+        }
+
+        /* 4페이지 버튼 및 지도 오버레이 스타일 */
+        .page-4-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end; /* 내용을 하단으로 정렬 */
+            gap: 0.5rem; /* 버튼과 지도의 간격 조절 */
+        }
+
+        .map-container {
+            width: 60%; /* 이미지 크기 조절 */
+            max-width: 400px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .page-4-buttons {
+            width: 80%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem; /* 버튼 간격 조절 */
+            margin-bottom: 3.5rem; /* 버튼과 하단 간 여백 */
+        }
+    </style>
+</head>
+<body>
     
-    .page { 
-        flex: 0 0 100vw; /* 각 페이지는 화면 너비의 100%를 차지 */
-        height: 100vh; 
-        scroll-snap-align: start; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center; 
-        position: relative; 
-        background-size: cover; /* contain보다 cover가 배경 채우기에 적합할 수 있습니다 */
-        background-repeat: no-repeat; 
-        background-position: center center; 
-        background-color: #f0f0f0; 
-    }
-    /* 나머지 스타일 유지... */
-</style>
+    <div id="container" class="container">
+        <!-- 1페이지 -->
+        <div id="page-1" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/1.jpg');"></div>
+
+        <!-- 2페이지 -->
+        <div id="page-2" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/2.jpg');"></div>
+        
+        <!-- 3페이지 -->
+        <div id="page-3" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/3.jpg');"></div>
+
+        <!-- 4페이지: 오시는 길 (지도 및 버튼 오버레이) -->
+        <div id="page-4" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/4-%EC%A7%80%EB%8F%84.jpg');">
+            <div class="page-4-content">
+                <!-- 행사장소 텍스트와 링크 추가 -->
+                <a href="https://map.naver.com/v5/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank"
+                   class="mb-4 text-white text-lg font-bold hover:underline transition-transform transform hover:scale-105">
+                    • 행사장소 : 사천 거북선마을체험관 (사천대교로 75-61)
+                </a>
+                
+                <!-- 캡처한 지도 이미지 -->
+                <div class="map-container">
+                    <img src="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/%EC%A7%80%EB%8F%84-%EC%82%AC%EC%B2%9C.PNG" alt="오시는 길 지도" class="w-full h-auto rounded-xl">
+                </div>
+                
+                <div class="page-4-buttons">
+                    <!-- 네이버 지도 버튼 -->
+                    <a href="https://map.naver.com/v5/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank" 
+                        class="w-full inline-block bg-green-600 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 hover:shadow-xl 
+                        focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center">
+                        네이버 지도로 오시는 길
+                    </a>
+                    <!-- 다음 지도 버튼 -->
+                    <a href="https://map.kakao.com/?q=%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank"
+                        class="w-full inline-block bg-yellow-500 text-gray-800 font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 hover:shadow-xl
+                        focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center">
+                        다음 지도로 오시는 길
+                    </a>
+                    <!-- 구글 지도 버튼 -->
+                    <a href="https://www.google.com/maps/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank" 
+                        class="w-full inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 hover:shadow-xl 
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center">
+                        구글 지도로 오시는 길
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5페이지 -->
+        <div id="page-5" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/5.jpg');"></div>
+    </div>
+    
+    <!-- 네비게이션 버튼 및 인디케이터 -->
+    <button id="prevBtn" class="nav-button nav-button-left" style="display:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    <button id="nextBtn" class="nav-button nav-button-right">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+    
+    <div id="indicators" class="indicators"></div>
+
+    <script>
+        const container = document.getElementById('container');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.getElementById('indicators');
+        const pages = document.querySelectorAll('.page');
+        let currentPageIndex = 0;
+
+        function updateUI() {
+            // 현재 페이지에 따라 버튼 숨기기/보이기
+            if (currentPageIndex === 0) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'block';
+            }
+            if (currentPageIndex === pages.length - 1) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'block';
+            }
+
+            // 인디케이터 업데이트
+            indicators.innerHTML = '';
+            pages.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('indicator');
+                if (index === currentPageIndex) {
+                    indicator.classList.add('active');
+                }
+                indicator.addEventListener('click', () => {
+                    currentPageIndex = index;
+                    pages[currentPageIndex].scrollIntoView({ behavior: 'smooth' });
+                    updateUI();
+                });
+                indicators.appendChild(indicator);
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                pages[currentPageIndex].scrollIntoView({ behavior: 'smooth' });
+                updateUI();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPageIndex < pages.length - 1) {
+                currentPageIndex++;
+                pages[currentPageIndex].scrollIntoView({ behavior: 'smooth' });
+                updateUI();
+            }
+        });
+
+        // 스와이프 감지
+        let startX = 0;
+        container.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        container.addEventListener('touchend', (e) => {
+            let endX = e.changedTouches[0].clientX;
+            // 50px 이상 스와이프했을 때만 페이지 이동
+            if (startX - endX > 50) {
+                nextBtn.click();
+            } else if (endX - startX > 50) {
+                prevBtn.click();
+            }
+        });
+        
+        // 초기 UI 업데이트
+        window.onload = function() {
+            updateUI();
+        };
+    </script>
+</body>
+</html>
