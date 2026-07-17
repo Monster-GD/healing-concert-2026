@@ -111,25 +111,27 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-end; /* 내용을 하단으로 정렬 */
-            gap: 0.5rem; /* 버튼과 지도의 간격 조절 */
+            gap: 1rem; /* 요소들 간의 세로 간격 확보 */
         }
 
         .map-container {
-            width: 60%; /* 이미지 크기 조절 */
+            width: 85%; /* 모바일 화면에 맞춰 지도 폭 확대 */
             max-width: 400px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 0.5rem; /* 아래 버튼 영역과의 마진 조정 */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
             border-radius: 1rem;
             overflow: hidden;
+            transform: translateY(-10px); /* 텍스트가 빠진 만큼 위로 약간 올림 */
         }
 
         .page-4-buttons {
-            width: 80%;
-            max-width: 300px;
+            width: 85%;
+            max-width: 320px;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem; /* 버튼 간격 조절 */
-            margin-bottom: 3.5rem; /* 버튼과 하단 간 여백 */
+            gap: 0.6rem; /* 버튼 간격 조정 */
+            margin-bottom: 4rem; /* 인디케이터와의 겹침 방지 여백 */
+            transform: translateY(-10px); /* 버틀들도 함께 위로 이동 */
         }
     </style>
 </head>
@@ -148,34 +150,32 @@
         <!-- 4페이지: 오시는 길 (지도 및 버튼 오버레이) -->
         <div id="page-4" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/4-map.jpg');">
             <div class="page-4-content">
-                <!-- 행사장소 텍스트와 링크 추가 -->
-                <a href="https://map.naver.com/v5/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank"
-                   class="mb-4 text-white text-lg font-bold hover:underline transition-transform transform hover:scale-105">
-                    • 행사장소 : 사천 거북선마을체험관 (사천대교로 75-61)
-                </a>
+                <!-- 중복 텍스트 삭제 완료 -->
                 
-                <!-- 캡처한 지도 이미지 -->
+                <!-- 캡처한 지도 이미지 (기존보다 위로 이동하고 터치 시 네이버 지도로 연동) -->
                 <div class="map-container">
-                    <img src="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/map-sacheon.PNG" alt="오시는 길 지도" class="w-full h-auto rounded-xl">
+                    <a href="https://map.naver.com/v5/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank">
+                        <img src="https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/map-sacheon.PNG" alt="오시는 길 지도" class="w-full h-auto rounded-xl hover:opacity-95 transition-opacity">
+                    </a>
                 </div>
                 
                 <div class="page-4-buttons">
-                    <!-- 네이버 지도 버튼 -->
+                    <!-- 네이버 지도 버튼 (정확한 주소 교정 완료) -->
                     <a href="https://map.naver.com/v5/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank" 
                         class="w-full inline-block bg-green-600 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 hover:shadow-xl 
-                        focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center">
+                        focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center text-sm md:text-base">
                         네이버 지도로 오시는 길
                     </a>
-                    <!-- 다음 지도 버튼 -->
+                    <!-- 다음 지도 버튼 (정확한 주소 교정 완료) -->
                     <a href="https://map.kakao.com/?q=%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank"
                         class="w-full inline-block bg-yellow-500 text-gray-800 font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 hover:shadow-xl
-                        focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center">
+                        focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center text-sm md:text-base">
                         다음 지도로 오시는 길
                     </a>
-                    <!-- 구글 지도 버튼 -->
+                    <!-- 구글 지도 버튼 (정확한 주소 교정 완료) -->
                     <a href="https://www.google.com/maps/search/%EA%B2%BD%EB%82%A8%20%EC%82%AC%EC%B2%9C%EC%8B%9C%20%EC%9A%A9%ED%98%84%EB%A9%B4%20%EC%82%AC%EC%B2%90%EB%8C%80%EA%B5%90%EB%A1%9C%2075-61" target="_blank" 
                         class="w-full inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 hover:shadow-xl 
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center">
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-2 border-transparent hover:border-white text-center text-sm md:text-base">
                         구글 지도로 오시는 길
                     </a>
                 </div>
@@ -185,7 +185,7 @@
         <!-- 5페이지 -->
         <div id="page-5" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/5.jpg');"></div>
 
-        <!-- 6페이지 (추가됨) -->
+        <!-- 6페이지 -->
         <div id="page-6" class="page" style="background-image: url('https://raw.githubusercontent.com/Monster-GD/healing-concert-2026/main/6.jpg');"></div>
     </div>
     
